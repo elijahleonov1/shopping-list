@@ -36,6 +36,16 @@ const AddNewTaskModal = ({
         selectRepeatData
     );
 
+    const [nameTask, setNameTask] = useState('');
+
+    const handlerSaveTask = () => {
+        saveTask({
+            id: 0,
+            name: nameTask,
+        });
+        setNameTask('');
+    };
+
     const checkedSelectOpt = (id) => {
         const t = selectRepeatData.map((item) => ({
             ...item,
@@ -52,7 +62,7 @@ const AddNewTaskModal = ({
                 header={
                     <ModalPageHeader
                         right={
-                            <PanelHeaderButton onClick={saveTask}>
+                            <PanelHeaderButton onClick={handlerSaveTask}>
                                 Готово
                             </PanelHeaderButton>
                         }
@@ -63,7 +73,11 @@ const AddNewTaskModal = ({
             >
                 <FormLayout>
                     <FormLayoutGroup>
-                        <Input placeholder="Название" />
+                        <Input
+                            placeholder="Название"
+                            value={nameTask}
+                            onChange={(e) => setNameTask(e.currentTarget.value)}
+                        />
                         <SelectMimicry top="Повторять" onClick={selectRepeat}>
                             Каждый день
                         </SelectMimicry>
@@ -108,7 +122,7 @@ const AddNewTaskModal = ({
 };
 
 AddNewTaskModal.propTypes = {
-    activeModal: PropTypes.func,
+    activeModal: PropTypes.string,
     closeModal: PropTypes.func,
     saveTask: PropTypes.func,
     selectRepeat: PropTypes.func,

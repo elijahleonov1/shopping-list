@@ -8,6 +8,9 @@ import MainHeader from './../components/MainHeader';
 import ItemsList from './../components/ItemList/ItemsList';
 import AddNewTaskModal from './../components/AddNewTaskModal';
 
+import { selectTask } from './../store/reducers';
+import { taskActions } from './../store/actions';
+
 const useScheme = () => {
     useEffect(() => {
         bridge.subscribe(({ detail: { type, data } }) => {
@@ -22,16 +25,20 @@ const useScheme = () => {
     }, []);
 };
 
-const App = () => {
+const App = ({ taskData, addNewTask }) => {
     const [activePanel, setActivePanel] = useState('main');
     const [activeModal, setActiveModal] = useState(null);
 
     const go = (e) => setActivePanel(e.currentTarget.dataset.to);
+
     const handlerAddTask = () => setActiveModal('addTask');
     const handlerCloseModal = () => setActiveModal(null);
     const handlerSelectRepeat = () => setActiveModal('selectRepeat');
     const handlerCloseSelectRepeat = () => setActiveModal('addTask');
-    const handlerSaveTask = () => {};
+    const handlerSaveTask = (data) => {
+        addNewTask(data);
+        handlerCloseModal();
+    };
 
     useScheme();
 
@@ -50,19 +57,19 @@ const App = () => {
         >
             <Panel id="main">
                 <MainHeader addTask={handlerAddTask} />
-                <ItemsList
-                    itemHabits={[
-                        { name: 'Привычка №1' },
-                        { name: 'Привычка №2' },
-                        { name: 'Привычка №3' },
-                    ]}
-                />
+                <ItemsList itemHabits={taskData} />
             </Panel>
         </View>
     );
 };
 
-const mapStatetoProps = (state) => {};
-const mapDispatchToProps = (dispatch) => {};
+const mapStatetoProps = (state) => ({
+    taskData: selectTask.getTask(state),
+});
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addNewTask: (data) => dispatch(taskActions.addTask(data)),
+    };
+};
 export default connect(mapStatetoProps, mapDispatchToProps)(App);
