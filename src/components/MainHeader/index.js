@@ -12,14 +12,14 @@ import {
 import Icon24Dropdown from '@vkontakte/icons/dist/24/dropdown';
 import Icon28AddOutline from '@vkontakte/icons/dist/28/add_outline';
 
-const MainHeader = ({ handlerAddTask }) => {
+const MainHeader = ({ addTask }) => {
     const [isOpneSubMenu, setIsOpneSubMenu] = useState(false);
     const toogleSubMenu = () => setIsOpneSubMenu(!isOpneSubMenu);
     return (
         <>
             <PanelHeader
                 right={
-                    <PanelHeaderSubmit onClick={handlerAddTask}>
+                    <PanelHeaderSubmit onClick={addTask}>
                         <Div>
                             <Icon28AddOutline />
                         </Div>
@@ -54,7 +54,7 @@ const MainHeader = ({ handlerAddTask }) => {
 };
 
 MainHeader.PropTypes = {
-    handlerAddTask: PropTypes.func.isRequired,
+    addTask: PropTypes.func.isRequired,
 };
 
 export default MainHeader;

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import MainHeader from './../components/MainHeader';
 import ItemsList from './../components/ItemList/ItemsList';
+import AddNewTaskModal from './../components/AddNewTaskModal';
 
 const useScheme = () => {
     useEffect(() => {
@@ -23,16 +24,38 @@ const useScheme = () => {
 
 const App = () => {
     const [activePanel, setActivePanel] = useState('main');
+    const [activeModal, setActiveModal] = useState(null);
+
+    const go = (e) => setActivePanel(e.currentTarget.dataset.to);
+    const handlerAddTask = () => setActiveModal('addTask');
+    const handlerCloseModal = () => setActiveModal(null);
+    const handlerSelectRepeat = () => setActiveModal('selectRepeat');
+    const handlerCloseSelectRepeat = () => setActiveModal('addTask');
+    const handlerSaveTask = () => {};
 
     useScheme();
-    const go = (e) => setActivePanel(e.currentTarget.dataset.to);
 
     return (
-        <View activePanel={activePanel}>
+        <View
+            activePanel={activePanel}
+            modal={
+                <AddNewTaskModal
+                    activeModal={activeModal}
+                    closeModal={handlerCloseModal}
+                    saveTask={handlerSaveTask}
+                    selectRepeat={handlerSelectRepeat}
+                    closeSelectRepeat={handlerCloseSelectRepeat}
+                />
+            }
+        >
             <Panel id="main">
-                <MainHeader />
+                <MainHeader addTask={handlerAddTask} />
                 <ItemsList
-                    itemHabits={[{ name: '123123213' }, { name: 'ghbdsxrf 2' }]}
+                    itemHabits={[
+                        { name: 'Привычка №1' },
+                        { name: 'Привычка №2' },
+                        { name: 'Привычка №3' },
+                    ]}
                 />
             </Panel>
         </View>
