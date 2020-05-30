@@ -25,8 +25,6 @@ const AddNewTaskModal = ({
     selectRepeat,
     closeSelectRepeat,
 }) => {
-    const [selectValue, setSelectValue] = useState(0);
-
     const selectRepeatData = [
         { id: 1, title: 'Каждый день', isActive: true },
         { id: 2, title: 'Каждую неделю', isActive: false },
@@ -109,6 +107,12 @@ const AddNewTaskModal = ({
     );
 };
 
-AddNewTaskModal.propTypes = {};
+AddNewTaskModal.propTypes = {
+    activeModal: PropTypes.func,
+    closeModal: PropTypes.func,
+    saveTask: PropTypes.func,
+    selectRepeat: PropTypes.func,
+    closeSelectRepeat: PropTypes.func,
+};
 
 export default AddNewTaskModal;
